@@ -154,7 +154,7 @@ function preProcessing() {
 	run("Set Measurements...", "area centroid center fit shape area_fraction stack limit display redirect=None decimal=3");
 	nS = nSlices;
 	close("Detection Mask");
-	doSIFT = getBool("Perform SIFT Registration");
+	doSIFT = getBoolD("Perform SIFT Registration", true);
 	imgBlur    = getDataD("Pseudo Flatfield Blur",150);
 
 	// start with SIFT alignment if needed
@@ -173,8 +173,8 @@ function preProcessing() {
 	
 	if (doSIFT && !matches(ori, ".* Registered.*")) {
 		resetMinAndMax();
-		run("Enhance Contrast", "saturated=5.0");
-		run("Linear Stack Alignment with SIFT", "initial_gaussian_blur=1.60 steps_per_scale_octave=3 minimum_image_size=64 maximum_image_size=256 feature_descriptor_size=4 feature_descriptor_orientation_bins=8 closest/next_closest_ratio=0.96 maximal_alignment_error=25 inlier_ratio=0.05 expected_transformation=Translation");
+		run("Enhance Contrast", "saturated=20.0");
+		run("Linear Stack Alignment with SIFT", "initial_gaussian_blur=1.60 steps_per_scale_octave=3 minimum_image_size=64 maximum_image_size=512 feature_descriptor_size=4 feature_descriptor_orientation_bins=8 closest/next_closest_ratio=0.96 maximal_alignment_error=25 inlier_ratio=0.05 expected_transformation=Translation");
 		siftID = getImageID();
 		selectImage(ori);
 		close();
