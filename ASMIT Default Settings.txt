@@ -1,0 +1,36 @@
+This window contains data Mitotic Division Analysis Tool needs.
+Please do not close it.
+Image Folder : H:\BSF012983_1\BSF012983_1\BSF012983_1\BSF012983_1_1\
+Save Folder : H:\BSF012983_1\BSF012983_1\BSF012983_1\BSF012983_1_1\Processed\
+Pseudo Flatfield Blur : 30
+Pattern Mask Median Filter : 6
+Pattern Min Area : 350
+Pattern Max Area : Infinity
+Pattern Min SD : 0.1
+Pattern Max SD : 0.45
+Laplacian Smoothing : 2.5
+Threshold : Intermodes
+Closing Iterations : 2
+Closing Count : 2
+DNA Min Area : 10
+DNA Max Area : 80
+Division Area Tolerance : 10
+Division Angle Tolerance : 15
+Division Max distance : 25
+Max Frames Until First Mitotic Plate : 2
+Mitotic Plate Minimal Laplacian : -60
+Max Total Area of single cell : 190
+Min Single Cell Area : 20
+Mitotic Plate Min Area : 30
+Mitotic Plate Max Area : 130
+Mitotic Plate Min Major Axis : 6
+Mitotic Plate Max Major Axis : 25
+Mitotic Plate Min Minor Axis : 2
+Mitotic Plate Max Minor Axis : 6.8
+Mitotic Plate Min Axis Ratio : 2.9
+Mitotic Plate Max Axis Ratio : 6
+Mitotic Plate Max Movement : 5
+Mitotic Plate Max Frames to seek : 3
+Perform SIFT Registration : Yes
+Debug Mode : 0
+Laplacian Threshold : -40
