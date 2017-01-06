@@ -29,7 +29,7 @@ After these steps, you should find **ASMIT** under **Plugins > ActionBar**
 After completing the step above make sure that the following update sites are enabled:
 - **IBMP-CNRS** - Contains the ActionBar Plugin by Jerôme Mutterer
 - **PTBIOP**  - Contains the BIOPLib and attached plugins used for managing ASMIT's settings and other internals
-
+- **Imagescience**  - Contains the FeatureJ Laplacian Plugin used by ASMIT
 ## Use
 
 To test it, you can download a sample dataset from ZENODO with teh following DOI
