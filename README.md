@@ -32,7 +32,7 @@ After completing the step above make sure that the following update sites are en
 - **Imagescience**  - Contains the FeatureJ Laplacian Plugin used by ASMIT
 ## Use
 
-To test it, you can download a sample dataset from ZENODO with teh following DOI
+To test it, you can download a sample dataset from ZENODO with the following DOI
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.232218.svg)](https://doi.org/10.5281/zenodo.232218)
 
