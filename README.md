@@ -6,6 +6,7 @@ ASMIT is written as an ImageJ ActionBar containing ImageJ 1 Macro code. It allow
 
 ### Repository Contents
 - **Readme.md** - This file
+- **ASMIT User Guide.pdf** - Interface and user guide
 - **LICENSE** - License file
 - **ASMIT_1.0.ijm** - The actual code of ASMIT, in ActionBar form
 - **updateFile.bat** - Windows Batch script useful for when updating this repository. Not of use to end users.
