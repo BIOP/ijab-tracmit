@@ -40,6 +40,11 @@ call("BIOP_LibInstaller.installLibrary", "BIOP"+File.separator+"BIOPLib.ijm");
 var barPath = "/plugins/ActionBar/";
 
 var barName = "ASMIT_1.0.ijm";
+
+if(isOpen(barName)) {
+	run("Close AB", barName);
+}
+
 run("Action Bar",barPath+barName);
 
 exit();
@@ -152,6 +157,7 @@ function openWellImage(dir, id, isVirtual) {
 function preProcessing() {
 	ori = getTitle();
 	run("Set Measurements...", "area centroid center fit shape area_fraction stack limit display redirect=None decimal=3");
+	getVoxelSize(vx,vy,vz,u);
 	nS = nSlices;
 	close("Detection Mask");
 	doSIFT = getBoolD("Perform SIFT Registration", true);
@@ -182,13 +188,13 @@ function preProcessing() {
 		ori = ori+" Registered";
 		rename(ori);
 		sanitizeImage();
+		setVoxelSize(vx,vy,vz,u);
 	}
 	
 	// Create an image to contain the detections
 	getDimensions(xI,yI,zI,cI,tI);
 	newImage("Detection Mask", "8-bit black", xI, yI, 1);
 	selectImage(ori);
-	getVoxelSize(vx,vy,vz,u);
 
 	lapSmooth  = getDataD("Laplacian Smoothing", 2.5);
 	lapThr     = getDataD("Laplacian Threshold",-40);
@@ -201,6 +207,7 @@ function preProcessing() {
 	// 1. Laplacian
 	if (!isOpen(ori+ " Laplacian") ) {
 		run("FeatureJ Laplacian", "compute smoothing=2.5");
+		setVoxelSize(vx,vy,vz,u);
 	}
 
 	//Select Laplacian Image
@@ -215,6 +222,7 @@ function preProcessing() {
 		run("Options...", "iterations="+closeIter+" count="+closeCount+" edm=Overwrite do=Close");
 		
 		setAutoThreshold("Default");
+		setVoxelSize(vx,vy,vz,u);
 	}
 	selectImage(ori+ " Mask");
 	mask = getImageID();
@@ -337,7 +345,7 @@ function confirmDivisions() {
 	
 	minLapThr = getDataD("Mitotic Plate Minimal Laplacian", -60);
 	maxAr     = getDataD("Max Total Area of single cell",180);
-	nThr     = getDataD("Threshold",180);
+	nThr     = getDataD("ROI Threshold",180);
 	minA     = getDataD("Min Single Cell Area",100);
 
 	
@@ -349,7 +357,7 @@ function confirmDivisions() {
 		if (isRedo) {deleteRois(idx,nR-1); };
 	}
 	if (isRedo) {
-		
+				nR = roiManager("Count");
 		getVoxelSize(vx,vy,vz,u);
 		k=0;
 		selectImage(ori);
@@ -596,6 +604,7 @@ function findMitoticPlates() {
 			}
 			updateResults();
 			closeTable("Angle Measurements");
+			selectWindow("Angle Measurements");
 			updateResults();
 
 			
@@ -621,6 +630,7 @@ function findMitoticPlates() {
 			updateResults();
 			
 			closeTable("Angles Summary");
+			selectWindow("Angles Summary");
 
 		}
 	}
@@ -629,6 +639,8 @@ function findMitoticPlates() {
 }
 
 function detectTraps() {
+	
+	preProcessing();
 	ori = getTitle();
 	idx = findRoiWithName("Detected Traps");
 	isRedo = true;
@@ -636,7 +648,7 @@ function detectTraps() {
 	if (idx != -1) {
 		isRedo = getBoolean("Traps were detected. Re-run detection?");
 	}
-
+	close(ori+" Traps Mask");
 	medianR    = getDataD("Pattern Mask Median Filter", 6);
 	trapMinA   = getDataD("Pattern Min Area",350); 
 	trapMaxA   = getDataD("Pattern Max Area", "Infinity");
@@ -653,6 +665,7 @@ function detectTraps() {
 		run("NaN Background");
 		setAutoThreshold("Huang dark");
 		run("Convert to Mask");
+		rename(ori+" Traps Mask");
 		run("Median...", "radius="+medianR);
 		run("Analyze Particles...", "size="+trapMinA+"-"+trapMaxA+" display exclude clear add");
 		// Update all ROIs, keep only bottom left area
@@ -710,7 +723,11 @@ function filterTraps() {
 		
 		getSelectionCoordinates(x,y);
 		ind = newArray(0);
+		
 		k=0;
+		xc = newArray(0);
+		yc = newArray(0);
+		
 		for (i=0; i<x.length; i++) {
 			makeBox(x[i], y[i]);
 			//roiManager("Add");
@@ -744,7 +761,8 @@ function filterTraps() {
 		selectImage(avgi);
 		close();
 		selectImage(res);
-		close();
+		rename(ori+" Relative STDDEV");
+		run("Enhance Contrast", "saturated=0.65");
 		selectImage(ori);
 	}
 }
@@ -920,7 +938,7 @@ function buildSettings() {
 	maxreturn = getDataD("Max Frames Until First Mitotic Plate", 2);
 	minLapThr = getDataD("Mitotic Plate Minimal Laplacian", -60);
 	maxAr     = getDataD("Max Total Area of single cell",190);
-	nThr     = getDataD("Threshold","Default");
+	nThr     = getDataD("ROI Threshold","Intermodes");
 	minA     = getDataD("Min Single Cell Area",20);
 
 	
@@ -1056,7 +1074,7 @@ function buildSettings() {
 	setData("Max Frames Until First Mitotic Plate", maxreturn);
 	setData("Mitotic Plate Minimal Laplacian", minLapThr);
 	setData("Max Total Area of single cell",maxAr);
-	setData("Threshold",nThr);
+	setData("ROI Threshold",nThr);
 	setData("Min Single Cell Area",minA);
 	
 	setData("Mitotic Plate Min Area", areaMin);
@@ -1150,9 +1168,23 @@ icon=noicon
 arg=<macro>
 buildSettings();
 </macro>
-
 </line>
 
+<line>
+<button>
+label=Save Parameters
+icon=noicon
+arg=<macro>
+saveParameters();
+</macro>
+
+<button>
+label=Load Parameters
+icon=noicon
+arg=<macro>
+loadParameters();
+</macro>
+</line>
 
 <line>
 <button>
@@ -1160,10 +1192,45 @@ label=Measure Current Image
 icon=noicon
 arg=<macro>
 measureCurrentImage();
+</macro>
+</line>
+<line>
+<button>
+label=Batch Process Folder
+icon=noicon
+arg=<macro>
+folder = getImageFolder();
+data = detectWells(folder);
+
+for(i=0; i<data.length;i++) {
+	openWellImage(folder, data[i], false);
+	
+	measureCurrentImage();
+	saveResults("");
+	run("Close All");
+	selectWindow("Log");
+	run("Close");
+	if (isOpen("Angles Summary")) {
+		selectWindow("Angles Summary");
+		run("Close");
+	}
+	if (isOpen("Results")) {
+		selectWindow("Results");
+		run("Close");
+	}
+	if (isOpen("Angle Measurements")) {
+		selectWindow("Angle Measurements");
+		run("Close");
+	}
+	
+	roiManager("Reset");
+	
+	
+}
 
 </macro>
-
 </line>
+
 
 
 <line>
@@ -1230,63 +1297,77 @@ label=Inspect Division
 icon=noicon
 arg=<macro>
 roiName = Roi.getName;
-divID = substring(roiName, indexOf(roiName, "#")+1, lengthOf(roiName));
+if(matches(roiName, "Potential.*")) {
+	s = getSliceNumber();
+	ss = s-4;
+	se = s+4;
+	nS = nSlices;
+	if(se > nS) se = nS;
+	if(ss < 1) ss = 1;
 
-
-
-setForegroundColor(255, 255, 255);
-run("Enlarge...", "enlarge=22 pixel");
-run("To Bounding Box");
-run("Duplicate...", "duplicate");
-prepareTable("Angle Measurements");
-minSlice = 10000;
-maxSlice = 0;
-setLineWidth(2);
-run("Select All");
-getSelectionBounds(x, y, width, height);
-for (i=0; i<nResults; i++) {
-	id = getResult("Division ID", i);
-	//print(name, roiName);
+	run("Enlarge...", "enlarge=22 pixel");
+	run("To Bounding Box");
+	run("Duplicate...", "duplicate range="+ss+"-"+se);
+	rename(roiName);
 	
-	if (divID == id) {
-		a = getResult("Angle", i);
-		s = getResult("Slice", i);
+} else {
+	divID = substring(roiName, indexOf(roiName, "#")+1, lengthOf(roiName));
+	
+	
+	
+	setForegroundColor(255, 255, 255);
+	run("Enlarge...", "enlarge=22 pixel");
+	run("To Bounding Box");
+	run("Duplicate...", "duplicate");
+	prepareTable("Angle Measurements");
+	minSlice = 10000;
+	maxSlice = 0;
+	setLineWidth(2);
+	run("Select All");
+	getSelectionBounds(x, y, width, height);
+	for (i=0; i<nResults; i++) {
+		id = getResult("Division ID", i);
+		//print(name, roiName);
 		
-		setSlice(s);
-
-		if(minSlice > s) minSlice = s;
-		if(maxSlice < s) maxSlice = s;
-		
-		
-		makeText("A: "+d2s(a,1), 3, 1);
-		run("Fill", "slice");
-		makeText("S: "+d2s(s,0), 22, 40);
-		run("Fill", "slice");
-		
-
-		drawRect(x, y, width, height);
-		
+		if (divID == id) {
+			a = getResult("Angle", i);
+			s = getResult("Slice", i);
+			
+			setSlice(s);
+	
+			if(minSlice > s) minSlice = s;
+			if(maxSlice < s) maxSlice = s;
+			
+			
+			makeText("A: "+d2s(a,1), 3, 1);
+			run("Fill", "slice");
+			makeText("S: "+d2s(s,0), 22, 40);
+			run("Fill", "slice");
+			
+			drawRect(x, y, width, height);
+			
+		}
 		
 	}
+	id = getImageID();
 	
+	if (maxSlice+5 > nSlices) {stop=nSlices;} else { stop = maxSlice+5;}
+	if (minSlice-5 < 1) {start=1;} else { start = minSlice-5;}
+	
+	nC = 5;
+	nR = floor((stop - start +1) / 5)+1;
+	
+	print(divID,start,stop,nC,nR);
+	run("Make Montage...", "columns="+nC+" rows="+nR+" scale=1 first="+start+" last="+stop+" increment=1 border=0");
+	id2 = getImageID();
+	selectImage(id);
+	close();
+	
+	
+	run("Select None");
+	closeTable("Angle Measurements");
+	selectWindow("Angle Measurements");
 }
-id = getImageID();
-
-if (maxSlice+5 > nSlices) {stop=nSlices;} else { stop = maxSlice+5;}
-if (minSlice-5 < 1) {start=1;} else { start = minSlice-5;}
-
-nC = 5;
-nR = floor((stop - start +1) / 5)+1;
-
-print(divID,start,stop,nC,nR);
-run("Make Montage...", "columns="+nC+" rows="+nR+" scale=1 first="+start+" last="+stop+" increment=1 border=0");
-id2 = getImageID();
-selectImage(id);
-close();
-
-
-run("Select None");
-closeTable("Angle Measurements");
 </macro>
 
 </line>
@@ -1302,22 +1383,6 @@ close("\\Others");
 
 <line>
 <button>
-label=Save Parameters
-icon=noicon
-arg=<macro>
-saveParameters();
-</macro>
-
-<button>
-label=Load Parameters
-icon=noicon
-arg=<macro>
-loadParameters();
-</macro>
-</line>
-
-<line>
-<button>
 label=Save table & (ROIs Current Image)
 icon=noicon
 arg=<macro>
@@ -1325,51 +1390,5 @@ dir = getDirectory("Where to save");
 saveResults(dir);
 </macro>
 </line>
-<line>
-<button>
-label=RenameResults
-icon=noicon
-arg=<macro>
-closeTable("Angle Measurements");
-</macro>
-</line>
-
-<line>
-<button>
-label=Batch Process Folder
-icon=noicon
-arg=<macro>
-folder = getImageFolder();
-data = detectWells(folder);
-
-for(i=0; i<data.length;i++) {
-	openWellImage(folder, data[i], false);
-	
-	measureCurrentImage();
-	saveResults("");
-	run("Close All");
-	selectWindow("Log");
-	run("Close");
-	if (isOpen("Angles Summary")) {
-		selectWindow("Angles Summary");
-		run("Close");
-	}
-	if (isOpen("Results")) {
-		selectWindow("Results");
-		run("Close");
-	}
-	if (isOpen("Angle Measurements")) {
-		selectWindow("Angle Measurements");
-		run("Close");
-	}
-	
-	roiManager("Reset");
-	
-	
-}
-
-</macro>
-</line>
-
 
 
