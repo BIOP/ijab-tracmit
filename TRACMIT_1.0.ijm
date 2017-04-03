@@ -6,7 +6,7 @@
  *  http://biop.epfl.ch
  *   -------------------------
  *  For Benita Wolf, UPGON
- *  Last update: January 6th 2017
+ *  Last update: April 3rd 2017
  *  
  * Copyright (c) 2017, Benita Wolf, Olivier Burri
  * All rights reserved.
