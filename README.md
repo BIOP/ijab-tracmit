@@ -6,6 +6,7 @@ TRACMIT is written as an ImageJ ActionBar containing ImageJ 1 Macro code. It all
 
 ### Repository Contents
 - **Readme.md** - This file
+- **ASMIT User Guide.pdf** - Interface and user guide
 - **LICENSE** - License file
 - **TRACMIT_1.0.ijm** - The actual code of TRACMIT, in ActionBar form
 - **updateFile.bat** - Windows Batch script useful for when updating this repository. Not of use to end users.
@@ -29,10 +30,10 @@ After these steps, you should find **TRACMIT** under **Plugins > ActionBar**
 After completing the step above make sure that the following update sites are enabled:
 - **IBMP-CNRS** - Contains the ActionBar Plugin by Jerôme Mutterer
 - **PTBIOP**  - Contains the BIOPLib and attached plugins used for managing TRACMIT's settings and other internals
-
+- **Imagescience**  - Contains the FeatureJ Laplacian Plugin used by ASMIT
 ## Use
 
-To test it, you can download a sample dataset from ZENODO with teh following DOI
+To test it, you can download a sample dataset from ZENODO with the following DOI
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.232218.svg)](https://doi.org/10.5281/zenodo.232218)
 

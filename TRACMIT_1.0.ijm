@@ -46,6 +46,11 @@ if(isOpen(barName)) {
 	run("Close AB", barName);
 }
 
+
+if(isOpen(barName)) {
+	run("Close AB", barName);
+}
+
 run("Action Bar",barPath+barName);
 
 exit();
@@ -209,6 +214,7 @@ function preProcessing() {
 	if (!isOpen(ori+ " Laplacian") ) {
 		run("FeatureJ Laplacian", "compute smoothing="+lapSmooth);
 		setVoxelSize(vx,vy,vz,u);
+		setVoxelSize(vx,vy,vz,u);
 	}
 
 	//Select Laplacian Image
@@ -358,7 +364,7 @@ function confirmDivisions() {
 		if (isRedo) {deleteRois(idx,nR-1); };
 	}
 	if (isRedo) {
-		nR = roiManager("Count");
+				nR = roiManager("Count");
 		getVoxelSize(vx,vy,vz,u);
 		k=0;
 		selectImage(ori);
