@@ -8,13 +8,20 @@ TRACMIT is written as an ImageJ ActionBar containing ImageJ 1 Macro code. It all
 - **Readme.md** - This file
 - **ASMIT User Guide.pdf** - Interface and user guide
 - **LICENSE** - License file
-- **TRACMIT_1.0.ijm** - The actual code of TRACMIT, in ActionBar form
+- **TRACMIT_1.1.ijm** - The actual code of TRACMIT, in ActionBar form
+- **TRACMIT_Settings_1.1.ijm** - A sub-ActionBar that contains methods for setting TRACMIT parameters, as well as a series of wizards to help set most parameters interactively.
 - **updateFile.bat** - Windows Batch script useful for when updating this repository. Not of use to end users.
 - **TRACMIT Default Settings.txt** - Text file with all de default settings for TRACMIT, can be loaded using the **Load Parameters** button.
 
 ## Installation
 
-The simplest way to install TRACMIT is to use the TRACMIT update site through [Fiji](https://fiji.sc/):
+### Dependencies
+After completing the step above make sure that the following update sites are enabled:
+- **IBMP-CNRS** - Contains the ActionBar Plugin by Jerôme Mutterer
+- **PTBIOP**  - Contains the BIOPLib and attached plugins used for managing TRACMIT's settings and other internals
+- **Imagescience**  - Contains the FeatureJ Laplacian Plugin used by TRACMIT
+
+The simplest way to install TRACMIT is to use the TRACMIT Update site through [Fiji](https://fiji.sc/):
 
 1. From Fiji, go to **Help > Update...**
 2. Select **Manage Update Sites**
@@ -26,14 +33,10 @@ The simplest way to install TRACMIT is to use the TRACMIT update site through [F
 
 After these steps, you should find **TRACMIT** under **Plugins > ActionBar**
 
-### Dependencies
-After completing the step above make sure that the following update sites are enabled:
-- **IBMP-CNRS** - Contains the ActionBar Plugin by Jerôme Mutterer
-- **PTBIOP**  - Contains the BIOPLib and attached plugins used for managing TRACMIT's settings and other internals
-- **Imagescience**  - Contains the FeatureJ Laplacian Plugin used by ASMIT
 ## Use
 
-To test it, you can download a sample dataset from ZENODO with the following DOI
+To test it, you can download a sample dataset from ZENODO with the following DOI.
+Please see the User Guide if you have questions
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.232218.svg)](https://doi.org/10.5281/zenodo.232218)
 

@@ -1,1 +1,1 @@
-copy "C:\Fiji\plugins\ActionBar\TRACMIT_1.0.ijm" G:\Projects\Fiji\TRACMIT
+copy "C:\Fiji\plugins\ActionBar\TRACMIT_*.ijm" G:\Projects\Fiji\TRACMIT
