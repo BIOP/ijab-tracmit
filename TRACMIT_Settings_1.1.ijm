@@ -506,9 +506,9 @@ function confirmDivisions() {
 					setSlice(frame) ;
 					makeRectangle(xp[idx], yp[idx]-pattern_box_h,pattern_box_w,pattern_box_h);
 					totAr = getTotalArea(nThr);
-					isManyCells = getBoolean("Does this thresholded area contain more than one cell?");
+					isOneCell = getBoolean("Does this thresholded area contain exactly one cell, dividing or not?");
 
-					if(!isManyCells) {
+					if(isOneCell) {
 						oneCellArea = Array.concat(oneCellArea,totAr); 
 					} else {
 						otherCellArea = Array.concat(otherCellArea,totAr); 
@@ -1186,8 +1186,8 @@ function crowdWizard() {
 	}
 	Array.getStatistics(avg, min,max, mean, stddev);
 	
-	minSD = (1-0.1)*min;
-	maxSD = (1+0.1)*max;
+	minSD = (1-0.3)*min;
+	maxSD = (1+0.3)*max;
 	
 	setData("Pattern Min SD", minSD); 
 	setData("Pattern Max SD", maxSD);
