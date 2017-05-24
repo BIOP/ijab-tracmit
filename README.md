@@ -40,7 +40,8 @@ Please see the User Guide if you have questions
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.232218.svg)](https://doi.org/10.5281/zenodo.232218)
 
-1. Unzip the file, then load the settings file **TRACMIT Default Settings.txt** using the **Load Parameters** button.
+1. Download the file **TRACMIT Default Settings.txt** from this repository
+2. Load the file above using the **Load Parameters** button.
 2. Click on **Select Raw Image** and point it to the folder you just extracted.
 3. Select one of the images
 4. Click on **Measure Current Image**
