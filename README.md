@@ -6,7 +6,7 @@ TRACMIT is written as an ImageJ ActionBar containing ImageJ 1 Macro code. It all
 
 ### Repository Contents
 - **Readme.md** - This file
-- **ASMIT User Guide.pdf** - Interface and user guide
+- **TRACMIT User Guide.pdf** - Interface and user guide
 - **LICENSE** - License file
 - **TRACMIT_1.1.ijm** - The actual code of TRACMIT, in ActionBar form
 - **TRACMIT_Settings_1.1.ijm** - A sub-ActionBar that contains methods for setting TRACMIT parameters, as well as a series of wizards to help set most parameters interactively.
