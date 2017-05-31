@@ -31,7 +31,7 @@ The simplest way to install TRACMIT is to use the TRACMIT Update site through [F
 6. Click on **Close**
 7. Finally click on **Apply Changes** and restart Fiji
 
-After these steps, you should find **TRACMIT** under **Plugins > ActionBar**
+After these steps, you should find **"TRACMIT_xx"** under **Plugins > ActionBar > TRACMIT**
 
 ## Use
 
