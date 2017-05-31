@@ -40,10 +40,12 @@ Please see the User Guide if you have questions
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.232218.svg)](https://doi.org/10.5281/zenodo.232218)
 
-1. Download the file **TRACMIT Default Settings.txt** from this repository
-2. Load the file above using the **Load Parameters** button.
-2. Click on **Select Raw Image** and point it to the folder you just extracted.
+1. Launch TRACMIT after installation
+2. Locate the **TRACMIT Default Settings.txt** in `plugins/ActionBar/TRACMIT/` or download it from this repository
+2. Using the **Load Parameters** button, load the file above.
+2. Click on **Select Image** and point it to the folder you just extracted.
 3. Select one of the images
+4. For testing, we recommend you crop the image to a more manageable size (512x512).
 4. Click on **Measure Current Image**
 
 
