@@ -38,18 +38,18 @@
  * 28.04.2017:  Fixed a bug that did not allow for the pipeline to be run without 
  * 				a call to "Settings"
  * 
- * 09.05.2017:  Implemented the following functionalities as per Reviewer comments
+ * 30.05.2017:  Implemented the following functionalities as per Reviewer comments
  * 				Increased the amount of comments in the code
- * 
- * 
- * 
+ * 				Added parameter wizards to help estimate initial settings
+ * 				Separated settings from TRACMIT pipeline to a new ActionBar
+ * 				Corrected a bug where a default threshold was not properly set
 */
 
 // Install common functions
 call("BIOP_LibInstaller.installLibrary", "BIOP"+File.separator+"BIOPLib.ijm");
 
 // Basic ActionBar Setup
-var barPath = "/plugins/ActionBar/";
+var barPath = "/plugins/ActionBar/TRACMIT/";
 
 var barName = "TRACMIT_Settings_1.1.ijm";
 
